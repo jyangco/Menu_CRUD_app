@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { updateDoc, getDoc, doc } from "firebase/firestore"
 import Swal from "sweetalert2"
 
@@ -7,6 +7,7 @@ import { db } from "../config/firebase-config"
 
 function EditProductPage() {
     const location = useLocation()
+    const navigate = useNavigate()
     const [ itemData, setItemData ] = useState({
         item_id: "",
         item_name: "",
@@ -26,17 +27,17 @@ function EditProductPage() {
 
     const fetchItemData = async (id) => {
         try {
-            const itemDocRef = doc(db, "item", id)
+            const itemDocRef = doc(db, "item", String(id))
             const itemSnapshot = await getDoc(itemDocRef)
             if (itemSnapshot.exists()) {
                 const itemData = itemSnapshot.data()
                 setItemData((prevState) => ({
                 ...prevState,
-                item_name: itemData.item_name,
-                description: itemData.description,
-                category_id: itemData.category_id,
-                stock: itemData.stock,
-                price: itemData.price,
+                    item_name: itemData.item_name || "",
+                    description: itemData.description || "",
+                    category_id: itemData.category_id || "",
+                    stock: itemData.stock || "",
+                    price: itemData.price || "",
                 }))
             }
         } catch (error) {
@@ -57,15 +58,17 @@ function EditProductPage() {
         try {
             const itemDocRef = doc(db, "item", itemData.item_id)
             await updateDoc(itemDocRef, {
-            name: itemData.item_name,
-            description: itemData.description,
-            stock: itemData.stock,
-            price: itemData.price,
+                item_name: itemData.item_name,
+                description: itemData.description,
+                stock: itemData.stock,
+                price: itemData.price,
             })
             Swal.fire({
                 title: "Success",
                 text: "item added",
                 icon: "success",
+            }).then(() => {
+                navigate("/")
             })
         } catch (error) {
             Swal.fire({
@@ -77,7 +80,7 @@ function EditProductPage() {
     }
 
     return(
-        <div className="container mx-auto">
+        <div className="container mx-auto p-5">
             <div className="flex justify-start w-100">
                 <Link to="/">
                     <button className="p-2 border"> Back </button>

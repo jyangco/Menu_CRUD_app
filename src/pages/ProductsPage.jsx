@@ -46,7 +46,7 @@ function ProductsPage() {
     }, [])
 
     return(
-        <div className="container mx-auto">
+        <div className="container mx-auto p-5">
             <div className="flex justify-end w-100">
                 <Link to="/new-product">
                     <button className="p-2 border"> Add </button>
@@ -56,7 +56,7 @@ function ProductsPage() {
                 <div className="p-5" key={ndx}>
                     <div className="text-3xl"> {cat.category_name} </div>
                     {joinedItems.filter(item => item.category_id == cat.category_id).map((items, idx) => 
-                        <Link key={idx} className="text-decoration-none text-black" to={`/product/${items.id}`} state={{ id: items.item_id }}>
+                        <Link key={idx} className="text-decoration-none text-black" to={`/product/${items.id}`} state={{ id: items.id }}>
                             <div className="contents">
                                 <div className="text-2xl"> Item Name: <span className="font-bold"> {items.item_name} </span></div>
                                 <div className="text-2xl"> Item Description: <span className="font-bold"> {items.description} </span></div>

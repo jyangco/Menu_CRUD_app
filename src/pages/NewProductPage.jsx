@@ -15,25 +15,25 @@ function NewProductPage() {
         price: "",
         stock: "",
     })
-    const [ newoption, setNewOption ] = useState({
+    const [ newoption, setNewOption ] = useState([{
         item_id: "",
         option_name: "",
         option_value: "",
         price: "",
         stock: ""    
-    })
+    }])
     const [ categories, setCategories ] = useState([])
 
     const categoryCollectionRef = collection(db, 'category')
 
     const clearOptions = () => {
-        setNewOption({
+        setNewOption([{
             item_id: "",
             option_name: "",
             option_value: "",
             price: "",
             stock: "" 
-        })
+        }])
     }
 
     const clearItems = (e) => {
@@ -48,14 +48,38 @@ function NewProductPage() {
         })
     }
 
-    const handleInputChange = (e) => {
-        e.persist()
-        setNewItem({...newitem, [e.target.name]: e.target.value })
+    const handleItemInputChange = (e) => {
+        const { name, value } = e.target
+        setNewItem((prevState) => ({
+            ...prevState,
+            [name]: name === "price" || name === "stock" ? Number(value) : value,
+        }))
     }
 
-    const handleInputChange2 = (e) => {
-        e.persist()
-        setNewOption({...newoption, [e.target.name]: e.target.value })
+    const handleOptionInputChange = (index, e) => {
+        const { name, value } = e.target
+        const updatedOptions = [...newoption]
+        updatedOptions[index] = {
+            ...updatedOptions[index],
+            [name]: name === "price" || name === "stock" ? Number(value) : value,
+        }
+        setNewOption(updatedOptions)
+    }
+
+    const handleAddOption = () => {
+        setNewOption([...newoption, {
+            item_id: "",
+            option_name: "",
+            option_value: "",
+            price: "",
+            stock: "" 
+        }])
+    }
+
+    const handleRemoveOption = (index) => {
+        const updatedOptions = [...newoption]
+        updatedOptions.splice(index, 1)
+        setNewOption(updatedOptions)
     }
 
     const saveNewItem = async(e) => {
@@ -97,7 +121,7 @@ function NewProductPage() {
             })
         }
     }
-
+    
     const addOptions = (e) => {
         e.preventDefault()
         setWithOptions(true)
@@ -114,13 +138,12 @@ function NewProductPage() {
     }
 
     useEffect(() => {
-        console.log(withOptions)
         getData()
     }, [])
     
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto p-5">
             <div className="flex justify-start w-100">
                 <Link to="/">
                     <button className="p-2 border"> Back </button>
@@ -133,7 +156,7 @@ function NewProductPage() {
                         <input className='text-2xl p-1 border-2 border-dark w-[100%]'
                             type="text" 
                             name="item_name"
-                            onChange={handleInputChange}
+                            onChange={handleItemInputChange}
                             value={newitem.item_name}
                         />
                     </div>
@@ -142,7 +165,7 @@ function NewProductPage() {
                         <input className='text-2xl p-1 border-2 border-dark w-[100%]'
                             type="number" 
                             name="price"
-                            onChange={handleInputChange}
+                            onChange={handleItemInputChange}
                             value={newitem.price}
                         />
                     </div>
@@ -151,7 +174,7 @@ function NewProductPage() {
                         <input className='text-2xl p-1 border-2 border-dark w-[100%]'
                             type="number" 
                             name="stock"
-                            onChange={handleInputChange}
+                            onChange={handleItemInputChange}
                             value={newitem.stock}
                         />
                     </div>
@@ -159,7 +182,7 @@ function NewProductPage() {
                         <label htmlFor="description" className='m-0'> Item description: </label>
                         <textarea className='border w-[100%] text-2xl p-1' rows={5}
                             name="description"
-                            onChange={handleInputChange}
+                            onChange={handleItemInputChange}
                             value={newitem.description}
                         />
                     </div>
@@ -167,7 +190,7 @@ function NewProductPage() {
                         <label htmlFor="category" className='m-0'> Item category: </label>
                         <select className='border w-[100%] text-2xl p-1'
                             name="category_id"
-                            onChange={handleInputChange}
+                            onChange={handleItemInputChange}
                             value={newitem.category_id}
                         >
                             <option value=""> --SELECT VALUE-- </option>
@@ -183,46 +206,62 @@ function NewProductPage() {
                         :
                         <div className="contents">
                             <button onClick={hideOptions} className="float-right text-base hover:cursor-pointer outline-none"> Close Options <i className="fas fa-toggle-on fa-lg text-green-500"></i> </button>
-                            <div className="form-group mb-2 w-[100%]">
-                                <label htmlFor="option_name" className='m-0'> Option name: </label>
-                                <input className='text-2xl p-1 border-2 border-dark w-[100%]'
-                                    type="text" 
-                                    name="option_name"
-                                    onChange={handleInputChange2}
-                                    value={newoption.item_name}
-                                />
-                            </div>
-                            <div className="form-group mb-2 w-[100%]">
-                                <label htmlFor="option_value" className='m-0'> Option value: </label>
-                                <input className='text-2xl p-1 border-2 border-dark w-[100%]'
-                                    type="text" 
-                                    name="option_value"
-                                    onChange={handleInputChange2}
-                                    value={newoption.option_value}
-                                />
-                            </div>
-                            <div className="form-group mb-2 w-[100%]">
-                                <label htmlFor="stock" className='m-0'> Item stock: </label>
-                                <input className='text-2xl p-1 border-2 border-dark w-[100%]'
-                                    type="number" 
-                                    name="stock"
-                                    onChange={handleInputChange2}
-                                    value={newoption.stock}
-                                />
-                            </div>
-                            <div className="form-group mb-2 w-[100%]">
-                                <label htmlFor="price" className='m-0'> Item price: </label>
-                                <input className='text-2xl p-1 border-2 border-dark w-[100%]'
-                                    type="number" 
-                                    name="price"
-                                    onChange={handleInputChange2}
-                                    value={newoption.price}
-                                />
-                            </div>
+                            {newoption.map((option, index) => 
+                                <div className="flex w-[100%]" key={index}>
+                                    <div className="form-group mb-2 w-[25%] p-1">
+                                        <label htmlFor="option_name" className='m-0'> Option name: </label>
+                                        <input className='text-2xl p-1 border-2 border-dark w-[100%]'
+                                            type="text" 
+                                            name="option_name"
+                                            onChange={(e) => handleOptionInputChange(index,e)}
+                                            value={option.item_name}
+                                        />
+                                    </div>
+                                    <div className="form-group mb-2 w-[25%] p-1">
+                                        <label htmlFor="option_value" className='m-0'> Option value: </label>
+                                        <input className='text-2xl p-1 border-2 border-dark w-[100%]'
+                                            type="text" 
+                                            name="option_value"
+                                            onChange={(e) => handleOptionInputChange(index,e)}
+                                            value={option.option_value}
+                                        />
+                                    </div>
+                                    <div className="form-group mb-2 w-[25%] p-1">
+                                        <label htmlFor="stock" className='m-0'> Item stock: </label>
+                                        <input className='text-2xl p-1 border-2 border-dark w-[100%]'
+                                            type="number" 
+                                            name="stock"
+                                            onChange={(e) => handleOptionInputChange(index,e)}
+                                            value={option.stock}
+                                        />
+                                    </div>
+                                    <div className="form-group mb-2 w-[20%] p-1">
+                                        <label htmlFor="price" className='m-0'> Item price: </label>
+                                        <input className='text-2xl p-1 border-2 border-dark w-[100%]'
+                                            type="number" 
+                                            name="price"
+                                            onChange={(e) => handleOptionInputChange(index,e)}
+                                            value={option.price}
+                                        />
+                                    </div>
+                                    {index ? 
+                                        <div className="form-group mb-2 w-[5%] p-1">
+                                            <button
+                                                type="button"
+                                                className="border p-2 my-3"
+                                                onClick={() => handleRemoveOption(index)}
+                                            >
+                                                X
+                                            </button>
+                                        </div> : null
+                                    }
+                                </div>
+                            )}
+                            <button type="button" onClick={handleAddOption}>Add Option</button>
                         </div>
                     }
                 </div>
-                <button className='w-[50%] border p-3 text-center mt-10' type="submit"> Save Item </button>
+                <button className='w-[75%] border p-3 text-center mt-10' type="submit"> Save Item </button>
             </form>
         </div>
     )
