@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: rgb(226 232 240);
+}
+
+@media screen and (min-width : 320px) and (max-width : 425px) {
+    .ribbon{
+        width: 80%;
+    }
+}
+
+.ribbon {
+    width: 50%;
+    position: relative;
+    background: #ba89b6;
+    color: #fff;
+    text-align: center;
+    margin: 10px auto 50px;
+    padding: 5px;
+}
+
+.ribbon:before, .ribbon:after {
+    content: "";
+    position: absolute;
+    display: block;
+    bottom: -25px;
+    border: 25px solid #986794;
+    z-index: -1;
+}
+
+.ribbon:before {
+    left: -33px;
+    border-right-width: 24px;
+    border-left-color: transparent;
+}
+
+.ribbon:after {
+    right: -33px;
+    border-left-width: 24px;
+    border-right-color: transparent;
+}
+
+.ribbon .ribbon-content:before, .ribbon .ribbon-content:after {
+    content: "";
+    position: absolute;
+    display: block;
+    border-style: solid;
+    border-color: #804f7c transparent transparent transparent;
+    bottom: -15px;
+}
+
+.ribbon .ribbon-content:before {
+    left: 0;
+    border-width: 15px 0 0 15px;
+}
+
+.ribbon .ribbon-content:after {
+    right: 0;
+    border-width: 15px 15px 0 0;
+}

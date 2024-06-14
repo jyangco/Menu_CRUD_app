@@ -159,10 +159,10 @@ function EditProductPage() {
                 </Link>
             </div>
             <form onSubmit={handleUpdateItem} className="flex flex-wrap justify-evenly">
-                <div className="w-[50%] p-3">
+                <div className="w-[50%] mobile-lg:!w-[100%] p-3">
                     <div className="form-group mb-2 text-xl">
-                        <label htmlFor="item_name" className='m-0'> Item name: </label>
-                        <input className='text-2xl p-1 border-2 border-dark'
+                        <label htmlFor="item_name" className='m-0 font-semibold italic text-lg'> Item name: </label>
+                        <input className='text-2xl p-1 border-2 border-black w-[100%]'
                             type="text" 
                             name="item_name"
                             onChange={handleInputChange}
@@ -170,8 +170,8 @@ function EditProductPage() {
                         />
                     </div>
                     <div className="form-group mb-2 text-xl">
-                        <label htmlFor="price" className='m-0'> Item price: </label>
-                        <input className='text-2xl p-1 border-2 border-dark'
+                        <label htmlFor="price" className='m-0 font-semibold italic text-lg'> Item price: </label>
+                        <input className='text-2xl p-1 border-2 border-black w-[100%]'
                             type="text" 
                             name="price"
                             onChange={handleInputChange}
@@ -179,8 +179,8 @@ function EditProductPage() {
                         />
                     </div>
                     <div className="form-group mb-2 text-xl">
-                        <label htmlFor="stock" className='m-0'> Item stock: </label>
-                        <input className='text-2xl p-1 border-2 border-dark'
+                        <label htmlFor="stock" className='m-0 font-semibold italic text-lg'> Item stock: </label>
+                        <input className='text-2xl p-1 border-2 border-black w-[100%]'
                             type="number" 
                             name="stock"
                             onChange={handleInputChange}
@@ -188,57 +188,69 @@ function EditProductPage() {
                         />
                     </div>
                     <div className="form-group mb-2 text-xl">
-                        <label htmlFor="description" className='m-0'> Item description: </label>
-                        <textarea className='border w-[100%] p-2'
+                        <label htmlFor="description" className='m-0 font-semibold italic text-lg'> Item description: </label>
+                        <textarea className='border-2 border-black w-[100%] p-2' rows={5}
                             name="description"
                             onChange={handleInputChange}
                             value={itemData.description}
                         />
                     </div>
                 </div>
-                <div className="w-[50%] p-3">
+                <div className="w-[50%] mobile-lg:!w-[100%] p-3">
                     <div className="form-group mb-2 text-xl">
-                        <label>Options:</label>
+                        <label className="font-semibold italic text-lg">Options:</label>
                         {options.map((option, index) => 
-                            <div key={index} className="flex w-100">
-                                <input className='text-xl p-1 m-1 border-2 border-dark w-[25%]'
-                                    type="text"
-                                    name="option_name"
-                                    placeholder="Option Name"
-                                    onChange={(e) => handleOptionChange(index, e)}
-                                    value={option.option_name}
-                                />
-                                <input className='text-xl p-1 m-1 border-2 border-dark w-[25%]'
-                                    type="text"
-                                    name="option_value"
-                                    placeholder="Option Value"
-                                    onChange={(e) => handleOptionChange(index, e)}
-                                    value={option.option_value}
-                                />
-                                <input className='text-xl p-1 m-1 border-2 border-dark w-[25%]'
-                                    type="text"
-                                    name="price"
-                                    placeholder="Option Price"
-                                    onChange={(e) => handleOptionChange(index, e)}
-                                    value={option.price}
-                                />
-                                <input className='text-xl p-1 m-1 border-2 border-dark w-[20%]'
-                                    type="number"
-                                    name="stock"
-                                    placeholder="Option Stock"
-                                    onChange={(e) => handleOptionChange(index, e)}
-                                    value={option.stock}
-                                />
-                                <button className="form-group w-[5%] py-2 m-1 bg-red-500" type="button" onClick={() => handleRemoveOption(index)}>
+                            <div key={index} className="flex flex-wrap w-[100%] mobile-lg:!mb-5 mobile-lg:!border-b-2 border-black">
+                                <div className="form-group mb-2 w-[25%] mobile-lg:!w-[100%] p-1">
+                                    <label htmlFor="option_name" className='m-0 font-semibold italic text-lg'> Option name: </label>
+                                    <input className='text-xl border-2 border-black p-1 w-[100%]'
+                                        type="text"
+                                        name="option_name"
+                                        placeholder="Option Name"
+                                        onChange={(e) => handleOptionChange(index, e)}
+                                        value={option.option_name}
+                                    />
+                                </div>
+                                <div className="form-group mb-2 w-[25%] mobile-lg:!w-[100%] p-1">
+                                    <label htmlFor="option_name" className='m-0 font-semibold italic text-lg'> Option value: </label>
+                                        <input className='text-xl border-2 border-black p-1 w-[100%]'
+                                        type="text"
+                                        name="option_value"
+                                        placeholder="Option Value"
+                                        onChange={(e) => handleOptionChange(index, e)}
+                                        value={option.option_value}
+                                    />
+                                </div>
+                                <div className="form-group mb-2 w-[20%] mobile-lg:!w-[100%] p-1">
+                                    <label htmlFor="option_name" className='m-0 font-semibold italic text-lg'> Item Stock: </label>
+                                    <input className='text-xl border-2 border-black p-1 w-[100%]'
+                                        type="number"
+                                        name="stock"
+                                        placeholder="Option Stock"
+                                        onChange={(e) => handleOptionChange(index, e)}
+                                        value={option.stock}
+                                    />
+                                </div>
+                                <div className="form-group mb-2 w-[20%] mobile-lg:!w-[100%] p-1">
+                                    <label htmlFor="option_name" className='m-0 font-semibold italic text-lg'> Item Price: </label>
+                                    <input className='text-xl border-2 border-black p-1 w-[100%]'
+                                        type="text"
+                                        name="price"
+                                        placeholder="Option Price"
+                                        onChange={(e) => handleOptionChange(index, e)}
+                                        value={option.price}
+                                    />
+                                </div>
+                                <button className="form-group w-[5%] mobile-lg:!w-[100%] py-2 m-1 bg-red-500 border-2 border-red-900" type="button" onClick={() => handleRemoveOption(index)}>
                                     <i className="fas fa-trash-alt text-white text-xl"></i>
                                 </button>
                             </div>
                         )}
-                        <button className='border p-2 bg-green-500' type="button" onClick={handleAddOption}><i className="far fa-plus-circle text-white"></i></button>
+                        <button className='border p-2 bg-green-500 border-2 border-green-900' type="button" onClick={handleAddOption}><i className="far fa-plus-circle text-white"></i></button>
                     </div>
                 </div>
-                <button className='w-[75%] border p-3 text-center mt-10' type="submit"> Save </button>
-                <button className="w-[75%] border p-3 text-center mt-5" onClick={prompt}>Delete Item</button>
+                <button className='w-[40%] border p-1 text-center bg-green-500 text-white font-bold text-2xl border-2 border-green-900' type="submit"> SAVE ITEM </button>
+                <button className="w-[40%] border p-1 text-center bg-red-500 text-white font-bold text-2xl border-2 border-red-900" onClick={prompt}> DELETE ITEM </button>
             </form>
         </div>
     )

@@ -151,45 +151,49 @@ function NewProductPage() {
                 </Link>
             </div>
             <form onSubmit={saveNewItem} className="flex flex-wrap justify-center">
-                <div className="w-[50%] p-3">
+                <div className="w-[50%] mobile-lg:!w-[100%] p-3">
                     <div className="form-group mb-2 w-[100%]">
-                        <label htmlFor="item_name" className='m-0'> Item name: </label>
-                        <input className='text-2xl p-1 border-2 border-dark w-[100%]'
+                        <label htmlFor="item_name" className='m-0 font-semibold italic text-xl'> Item name: </label>
+                        <input className='text-2xl p-1 border-2 border-black w-[100%]'
                             type="text" 
                             name="item_name"
+                            placeholder="Item Name"
                             onChange={handleItemInputChange}
                             value={newitem.item_name}
                         />
                     </div>
                     <div className="form-group mb-2 w-[100%]">
-                        <label htmlFor="price" className='m-0'> Item price: </label>
-                        <input className='text-2xl p-1 border-2 border-dark w-[100%]'
+                        <label htmlFor="price" className='m-0 font-semibold italic text-xl'> Item price: </label>
+                        <input className='text-2xl p-1 border-2 border-black w-[100%]'
                             type="number" 
                             name="price"
+                            placeholder="Item Price"
                             onChange={handleItemInputChange}
                             value={newitem.price}
                         />
                     </div>
                     <div className="form-group mb-2 w-[100%]">
-                        <label htmlFor="stock" className='m-0'> Item stock: </label>
-                        <input className='text-2xl p-1 border-2 border-dark w-[100%]'
+                        <label htmlFor="stock" className='m-0 font-semibold italic text-xl'> Item stock: </label>
+                        <input className='text-2xl p-1 border-2 border-black w-[100%]'
                             type="number" 
                             name="stock"
+                            placeholder="Item Stock"
                             onChange={handleItemInputChange}
                             value={newitem.stock}
                         />
                     </div>
                     <div className="form-group mb-2 w-[100%]">
-                        <label htmlFor="description" className='m-0'> Item description: </label>
-                        <textarea className='border w-[100%] text-2xl p-1' rows={5}
+                        <label htmlFor="description" className='m-0 font-semibold italic text-xl'> Item description: </label>
+                        <textarea className='border-2 border-black w-[100%] text-2xl p-1' rows={5}
                             name="description"
+                            placeholder="Item Description"
                             onChange={handleItemInputChange}
                             value={newitem.description}
                         />
                     </div>
                     <div className="form-group mb-2 w-[100%]">
-                        <label htmlFor="category" className='m-0'> Item category: </label>
-                        <select className='border w-[100%] text-2xl p-1'
+                        <label htmlFor="category" className='m-0 font-semibold italic text-xl'> Item category: </label>
+                        <select className='border-2 border-black w-[100%] text-2xl p-1'
                             name="category_id"
                             onChange={handleItemInputChange}
                             value={newitem.category_id}
@@ -201,68 +205,70 @@ function NewProductPage() {
                         </select>
                     </div>
                 </div>
-                <div className="w-[50%] p-3">
+                <div className="w-[50%] mobile-lg:!w-[100%] p-3">
                     {withOptions == false ? 
-                            <button onClick={addOptions} className="float-right text-base hover:cursor-pointer outline-none"> Add Options <i className="fas fa-toggle-off fa-lg"></i> </button> 
+                            <button onClick={addOptions} className="float-right font-semibold italic text-base hover:cursor-pointer outline-none"> Add Options <i className="fas fa-toggle-off fa-lg"></i> </button> 
                         :
                         <div className="contents">
-                            <button onClick={hideOptions} className="float-right text-base hover:cursor-pointer outline-none"> Close Options <i className="fas fa-toggle-on fa-lg text-green-500"></i> </button>
+                            <button onClick={hideOptions} className="float-right font-semibold italic text-base hover:cursor-pointer outline-none"> Close Options <i className="fas fa-toggle-on fa-lg text-green-500"></i> </button>
                             {newoption.map((option, index) => 
-                                <div className="flex w-[100%]" key={index}>
-                                    <div className="form-group mb-2 w-[25%] p-1">
-                                        <label htmlFor="option_name" className='m-0'> Option name: </label>
-                                        <input className='text-2xl p-1 border-2 border-dark w-[100%]'
+                                <div className="flex flex-wrap w-[100%] mobile-lg:!mb-5 mobile-lg:!border-b-2 border-black" key={index}>
+                                    <div className="form-group mb-2 w-[25%] mobile-lg:!w-[100%] p-1">
+                                        <label htmlFor="option_name" className='m-0 font-semibold italic text-lg'> Option name: </label>
+                                        <input className='text-xl p-1 border-2 border-black w-[100%]'
                                             type="text" 
                                             name="option_name"
+                                            placeholder="Option Name"
                                             onChange={(e) => handleOptionInputChange(index,e)}
                                             value={option.item_name}
                                         />
                                     </div>
-                                    <div className="form-group mb-2 w-[25%] p-1">
-                                        <label htmlFor="option_value" className='m-0'> Option value: </label>
-                                        <input className='text-2xl p-1 border-2 border-dark w-[100%]'
+                                    <div className="form-group mb-2 w-[25%] mobile-lg:!w-[100%] p-1">
+                                        <label htmlFor="option_value" className='m-0 font-semibold italic text-lg'> Option value: </label>
+                                        <input className='text-xl p-1 border-2 border-black w-[100%]'
                                             type="text" 
                                             name="option_value"
+                                            placeholder="Option Value"
                                             onChange={(e) => handleOptionInputChange(index,e)}
                                             value={option.option_value}
                                         />
                                     </div>
-                                    <div className="form-group mb-2 w-[25%] p-1">
-                                        <label htmlFor="stock" className='m-0'> Item stock: </label>
-                                        <input className='text-2xl p-1 border-2 border-dark w-[100%]'
+                                    <div className="form-group mb-2 w-[20%] mobile-lg:!w-[100%] p-1">
+                                        <label htmlFor="stock" className='m-0 font-semibold italic text-lg'> Item stock: </label>
+                                        <input className='text-xl p-1 border-2 border-black w-[100%]'
                                             type="number" 
                                             name="stock"
+                                            placeholder="Option Stock"
                                             onChange={(e) => handleOptionInputChange(index,e)}
                                             value={option.stock}
                                         />
                                     </div>
-                                    <div className="form-group mb-2 w-[20%] p-1">
-                                        <label htmlFor="price" className='m-0'> Item price: </label>
-                                        <input className='text-2xl p-1 border-2 border-dark w-[100%]'
+                                    <div className="form-group mb-2 w-[20%] mobile-lg:!w-[100%] p-1">
+                                        <label htmlFor="price" className='m-0 font-semibold italic text-lg'> Item price: </label>
+                                        <input className='text-xl p-1 border-2 border-black w-[100%]'
                                             type="number" 
                                             name="price"
+                                            placeholder="Option Price"
                                             onChange={(e) => handleOptionInputChange(index,e)}
                                             value={option.price}
                                         />
                                     </div>
                                     {index ? 
-                                        <div className="form-group w-[5%] py-5">
-                                            <button
-                                                type="button"
-                                                className="border p-2 bg-red-500 my-1"
-                                                onClick={() => handleRemoveOption(index)}
-                                            >
-                                                <i className="fas fa-trash-alt text-white text-xl"></i>
-                                            </button>
-                                        </div> : null
+                                        <button
+                                            type="button"
+                                            className="form-group w-[5%] py-2 m-1 bg-red-500 border-2 border-red-900"
+                                            onClick={() => handleRemoveOption(index)}
+                                        >
+                                            <i className="fas fa-trash-alt text-white text-xl"></i>
+                                        </button> : null
                                     }
                                 </div>
                             )}
-                            <button className='border p-2 bg-green-500' type="button" onClick={handleAddOption}><i className="far fa-plus-circle text-white"></i></button>
+                            <button className='border p-2 bg-green-500 border-2 border-green-900' type="button" onClick={handleAddOption}><i className="far fa-plus-circle text-white"></i></button>
                         </div>
                     }
                 </div>
-                <button className='w-[75%] border p-3 text-center mt-10' type="submit"> Save Item </button>
+                <button className='w-[50%] border p-1 text-center bg-green-500 text-white font-bold text-2xl border-2 border-green-900' type="submit"> SAVE ITEM </button>
             </form>
         </div>
     )

@@ -57,10 +57,13 @@ function ProductsPage() {
 
     return(
         <div className="container mx-auto p-5">
+            <div className="ribbon">
+                <div className="text-center ribbon-content text-5xl font-mono italic font-extrabold mobile-lg:!text-2xl"> Restaurant Management App </div>
+            </div>
             <div className="flex justify-between w-100">
                 <div className="form-group mb-2 w-[100%]">
-                    <label className='m-0'> Filter by Category: </label>
-                    <select className='border p-1'
+                    <label className='m-0 font-semibold italic'> Filter by Category: </label>
+                    <select className='border border-black p-1'
                         onChange={(e) => setCtgry(e.target.value)}
                         value={ctgry}
                     >
@@ -71,7 +74,7 @@ function ProductsPage() {
                     </select>
                 </div>
                 <Link to="/new-product">
-                    <button className='border p-2 bg-green-500 rounded'>
+                    <button className='border p-2 bg-green-500 border-2 border-green-900 rounded'>
                         <i className="far fa-plus-circle text-white"></i>
                     </button>
                 </Link>
@@ -79,52 +82,82 @@ function ProductsPage() {
             {ctgry == "All" ?
                 categories.map((cat, ndx) => 
                     <div className="p-5" key={ndx}>
-                        <div className="text-3xl"> {cat.category_name} </div>
-                        <div className="flex flex-wrap">
+                        <div className="text-3xl text-center font-bold font-serif italic"> -{cat.category_name}- </div>
                             {joinedItems.filter(item => item.category_id == cat.category_id).map((items, idx) => 
-                                <Link key={idx} className="text-decoration-none text-black w-[50%]" to={`/product/${items.id}`} state={{ id: items.id }}>
-                                    <div className="border-2 border-black m-2 p-3">
-                                        <div className="text-2xl"> Item Name: <span className="font-bold"> {items.item_name} </span></div>
-                                        <div className="text-2xl"> Item Description: <span className="font-bold"> {items.description} </span></div>
-                                        <div className="text-2xl"> Item Price: <span className="font-bold"> {items.price} </span></div>
-                                        <div className="text-2xl"> Item Stock: <span className="font-bold"> {items.stock} </span></div>
+                                <Link key={idx} className="text-decoration-none text-black" to={`/product/${items.id}`} state={{ id: items.id }}>
+                                    <div className="border-b-2 border-black m-2 p-3 hover:!outline hover:!shadow-lg outline-stone-50">
+                                        <div className="flex flex-wrap">
+                                            <div className="flex flex-wrap w-[70%] mobile-lg:!w-[100%]">
+                                                <div className="text-2xl w-[100%] font-bold font-sans"> {items.item_name} </div>
+                                                <div className="text-xl w-[100%] font-medium"> {items.description} </div>
+                                            </div>
+                                            <div className="w-[10%] mobile-lg:!w-[100%] py-3">
+                                                <div className="text-2xl w-[100%] font-bold"> Php {items.price} </div>
+                                            </div>
+                                            <div className="w-[20%] mobile-lg:!w-[100%] py-3">
+                                                <div className="text-2xl w-[100%] font-bold"> {items.stock} items in stock </div>
+                                            </div>
+                                        </div>
                                         {items.options != null ? 
-                                            <div className="text-2xl">
-                                                <div className="font-bold">Options:</div>
-                                                <ul>
+                                            <div className="pt-5">
+                                                <div className="font-bold text-2xl">Options: <span className="font-normal text-xl"> *item also available in: </span> </div>
+                                                <div className="flex flex-wrap justify-start">
                                                     {items.options.map((option, indx) => 
-                                                        <li className="text-2xl" key={indx}>
-                                                            {option.option_name}: <span className="font-bold"> {option.option_value} </span> - Item Price: <span className="font-bold"> {option.price} </span> (Stock: {option.stock})
-                                                        </li>
+                                                        <div className="flex w-[60%] mobile-lg:!w-[100%]" key={indx}>
+                                                            <div className="w-[33%]">
+                                                                <div className="text-xl mobile-lg:!text-base w-[100%] font-semibold font-sans"> {option.option_name}: {option.option_value} </div>
+                                                            </div>
+                                                            <div className="w-[33%]">
+                                                                <div className="text-xl mobile-lg:!text-base w-[100%] font-semibold"> Php {option.price} </div>
+                                                            </div>
+                                                            <div className="w-[33%]">
+                                                                <div className="text-xl mobile-lg:!text-base w-[100%] font-semibold"> {option.stock} items in stock </div>
+                                                            </div>
+                                                        </div>
                                                     )}
-                                                </ul>
+                                                </div>
                                             </div> : ""
                                         }
                                     </div>
                                 </Link>
                             )}
-                        </div>
                     </div>
                 ) : 
                 <div className="p-5">
-                    {categories.filter(cat => cat.category_id == ctgry).map((cat, idx) => <span className="text-3xl" key={idx}> {cat.category_name} </span> )}
+                    {categories.filter(cat => cat.category_id == ctgry).map((cat, idx) => <div className="text-3xl text-center font-bold font-serif italic" key={idx}> -{cat.category_name}- </div> )}
                     {joinedItems.filter(item => item.category_id == ctgry).map((items, idx) => 
                         <Link key={idx} className="text-decoration-none text-black" to={`/product/${items.id}`} state={{ id: items.id }}>
-                            <div className="border-2 border-black m-2 p-3">
-                                <div className="text-2xl"> Item Name: <span className="font-bold"> {items.item_name} </span></div>
-                                <div className="text-2xl"> Item Description: <span className="font-bold"> {items.description} </span></div>
-                                <div className="text-2xl"> Item Price: <span className="font-bold"> {items.price} </span></div>
-                                <div className="text-2xl"> Item Stock: <span className="font-bold"> {items.stock} </span></div>
+                            <div className="border-b-2 border-black m-2 p-3 hover:!outline hover:!shadow-lg outline-stone-50">
+                                <div className="flex flex-wrap">
+                                    <div className="flex flex-wrap w-[70% mobile-lg:!w-[100%]">
+                                        <div className="text-2xl w-[100%] font-bold font-sans"> {items.item_name} </div>
+                                        <div className="text-xl w-[100%] font-medium"> {items.description} </div>
+                                    </div>
+                                    <div className="w-[10%] mobile-lg:!w-[100%] py-3">
+                                        <div className="text-2xl w-[100%] font-bold"> Php {items.price} </div>
+                                    </div>
+                                    <div className="w-[20%] mobile-lg:!w-[100%] py-3">
+                                        <div className="text-2xl w-[100%] font-bold"> {items.stock} items in stock </div>
+                                    </div>
+                                </div>
                                 {items.options != null ? 
-                                    <div className="text-2xl">
-                                        <div className="font-bold">Options:</div>
-                                        <ul>
+                                    <div className="pt-5">
+                                        <div className="font-bold text-2xl">Options: <span className="font-normal text-xl"> *item also available in: </span> </div>
+                                        <div className="flex flex-wrap justify-start">
                                             {items.options.map((option, indx) => 
-                                                <li className="text-2xl" key={indx}>
-                                                    {option.option_name}: <span className="font-bold"> {option.option_value} </span> - Item Price: <span className="font-bold"> {option.price} </span> (Stock: {option.stock})
-                                                </li>
+                                                <div className="flex w-[60%] mobile-lg:!w-[100%]" key={indx}>
+                                                    <div className="w-[33%]">
+                                                        <div className="text-xl mobile-lg:!text-base w-[100%] font-semibold font-sans"> {option.option_name}: {option.option_value} </div>
+                                                    </div>
+                                                    <div className="w-[33%]">
+                                                        <div className="text-xl mobile-lg:!text-base w-[100%] font-semibold"> Php {option.price} </div>
+                                                    </div>
+                                                    <div className="w-[33%]">
+                                                        <div className="text-xl mobile-lg:!text-base w-[100%] font-semibold"> {option.stock} items in stock </div>
+                                                    </div>
+                                                </div>
                                             )}
-                                        </ul>
+                                        </div>
                                     </div> : ""
                                 }
                             </div>
