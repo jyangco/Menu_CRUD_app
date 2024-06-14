@@ -36,8 +36,7 @@ function NewProductPage() {
         }])
     }
 
-    const clearItems = (e) => {
-        e.preventDefault()
+    const clearItems = () => {
         setNewItem({
             item_id: "",
             category_id: "",
@@ -96,15 +95,17 @@ function NewProductPage() {
                 price: newitem.price,
                 stock: newitem.stock,
             })
-            if (newoption.option_name.length > 0) {
-                const optionsCollection = collection( db, 'options' )
-                await addDoc(optionsCollection, {
-                    item_id: item_id,
-                    option_name: newoption.option_name,
-                    option_value: newoption.option_value,
-                    price: newoption.price,
-                    stock: newoption.stock,
-                })
+            if (newoption[0].option_name.length > 0) {
+                const optionsPromises = newoption.map((option) =>
+                    addDoc(collection(db, "options"), {
+                        item_id: item_id,
+                        option_name: option.option_name,
+                        option_value: option.option_value,
+                        price: option.price,
+                        stock: option.stock,
+                    })
+                )
+                await Promise.all(optionsPromises)
             }
             Swal.fire({
                 title: "Success",
@@ -133,7 +134,7 @@ function NewProductPage() {
     }
 
     const getData = async() => {
-        const  categorySnapshot = await getDocs(categoryCollectionRef)
+        const categorySnapshot = await getDocs(categoryCollectionRef)
         setCategories(categorySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()} )))
     }
 
@@ -146,7 +147,7 @@ function NewProductPage() {
         <div className="container mx-auto p-5">
             <div className="flex justify-start w-100">
                 <Link to="/">
-                    <button className="p-2 border"> Back </button>
+                    <button className="p-2"> <i className="fas fa-arrow-alt-left"></i> </button>
                 </Link>
             </div>
             <form onSubmit={saveNewItem} className="flex flex-wrap justify-center">
@@ -193,7 +194,7 @@ function NewProductPage() {
                             onChange={handleItemInputChange}
                             value={newitem.category_id}
                         >
-                            <option value=""> --SELECT VALUE-- </option>
+                            <option className='text-center' value=""> --SELECT VALUE-- </option>
                             {categories.map((val,ndx) => 
                                 <option className='p-1' key={ndx} value={val.category_id}> {val.category_name} </option>
                             )}
@@ -245,19 +246,19 @@ function NewProductPage() {
                                         />
                                     </div>
                                     {index ? 
-                                        <div className="form-group mb-2 w-[5%] p-1">
+                                        <div className="form-group w-[5%] py-5">
                                             <button
                                                 type="button"
-                                                className="border p-2 my-3"
+                                                className="border p-2 bg-red-500 my-1"
                                                 onClick={() => handleRemoveOption(index)}
                                             >
-                                                X
+                                                <i className="fas fa-trash-alt text-white text-xl"></i>
                                             </button>
                                         </div> : null
                                     }
                                 </div>
                             )}
-                            <button type="button" onClick={handleAddOption}>Add Option</button>
+                            <button className='border p-2 bg-green-500' type="button" onClick={handleAddOption}><i className="far fa-plus-circle text-white"></i></button>
                         </div>
                     }
                 </div>
