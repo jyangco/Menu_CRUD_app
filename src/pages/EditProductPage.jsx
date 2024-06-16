@@ -19,6 +19,7 @@ function EditProductPage() {
     const [options, setOptions] = useState([])
 
     useEffect(() => {
+        //getting item id from the previous page and calling a function to get their data
         const itemIdFromLocation = location.state?.id || ""
         if (itemIdFromLocation) {
             setItemData((prevState) => ({ ...prevState, id: itemIdFromLocation }))
@@ -26,6 +27,7 @@ function EditProductPage() {
         }
     }, [location.state])
 
+    //getting data from database using the item id
     const fetchItemData = async (id) => {
         try {
             const itemDocRef = doc(db, "item", id)
@@ -51,6 +53,7 @@ function EditProductPage() {
         }
     }
 
+    //onChange event of item fields
     const handleInputChange = (e) => {
         const { name, value } = e.target
         setItemData((prevState) => ({
@@ -59,20 +62,22 @@ function EditProductPage() {
         }))
     }
 
+    //onChange event of option fields
     const handleOptionChange = (index, e) => {
         const { name, value } = e.target
         const updatedOptions = options.map((option, i) => i === index ? { ...option, [name]: value } : option)
         setOptions(updatedOptions)
     }
 
+    //add and remove option fields if needed
     const handleAddOption = () => {
         setOptions([...options, { option_name: "", option_value: "", price: "", stock: "" }])
     }
-
     const handleRemoveOption = (index) => {
         setOptions(options.filter((_, i) => i !== index))
     }
 
+    //onSubmit event of our form to save the updated data of the item
     const handleUpdateItem = async (e) => {
         e.preventDefault()
         try {
@@ -105,6 +110,7 @@ function EditProductPage() {
         }
     }
 
+    //Delete function for deleting item and their corresponding options
     const handleDeleteItem = async () => {
         try {
             const optionsQuery = query(collection(db, "options"), where("item_id", "==", itemData.item_id))
@@ -132,6 +138,7 @@ function EditProductPage() {
         }
     }
 
+    //prompt if delete button is clicked, no surprise deletion
     const prompt = (e) => {
         e.preventDefault()
         Swal.fire({

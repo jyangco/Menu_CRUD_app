@@ -26,6 +26,7 @@ function NewProductPage() {
 
     const categoryCollectionRef = collection(db, 'category')
 
+    //clear options field
     const clearOptions = () => {
         setNewOption([{
             item_id: "",
@@ -36,6 +37,7 @@ function NewProductPage() {
         }])
     }
 
+    //clear items field
     const clearItems = () => {
         setNewItem({
             item_id: "",
@@ -47,6 +49,8 @@ function NewProductPage() {
         })
     }
 
+    //onChange event of our item input fields
+    //added restrictions on data type
     const handleItemInputChange = (e) => {
         const { name, value } = e.target
         setNewItem((prevState) => ({
@@ -54,7 +58,7 @@ function NewProductPage() {
             [name]: name === "price" || name === "stock" ? Number(value) : value,
         }))
     }
-
+    //onChange event of our options input fields
     const handleOptionInputChange = (index, e) => {
         const { name, value } = e.target
         const updatedOptions = [...newoption]
@@ -65,6 +69,7 @@ function NewProductPage() {
         setNewOption(updatedOptions)
     }
 
+    //add option input fields
     const handleAddOption = () => {
         setNewOption([...newoption, {
             item_id: "",
@@ -75,12 +80,14 @@ function NewProductPage() {
         }])
     }
 
+    //remove option input fields
     const handleRemoveOption = (index) => {
         const updatedOptions = [...newoption]
         updatedOptions.splice(index, 1)
         setNewOption(updatedOptions)
     }
 
+    //onSubmit event of our form to save new items
     const saveNewItem = async(e) => {
         e.preventDefault()
         try {
@@ -95,6 +102,7 @@ function NewProductPage() {
                 price: newitem.price,
                 stock: newitem.stock,
             })
+            //checking if option input fields is empty
             if (newoption[0].option_name.length > 0) {
                 const optionsPromises = newoption.map((option) =>
                     addDoc(collection(db, "options"), {
@@ -123,6 +131,7 @@ function NewProductPage() {
         }
     }
     
+    //toggle to show or hide input fields for options
     const addOptions = (e) => {
         e.preventDefault()
         setWithOptions(true)
@@ -133,6 +142,7 @@ function NewProductPage() {
         clearOptions()
     }
 
+    //getting category from db for easier input
     const getData = async() => {
         const categorySnapshot = await getDocs(categoryCollectionRef)
         setCategories(categorySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()} )))

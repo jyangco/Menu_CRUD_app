@@ -14,9 +14,11 @@ function ProductsPage() {
     const optionCollectionRef = collection(db, 'options')
 
     useEffect(() => {
+        //get category collection from database
         const getData = async() => {
             const  categorySnapshot = await getDocs(categoryCollectionRef)
             const categoryData = categorySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()} ))
+            //sort data of categories by id
             const sortedItems = [...categoryData].sort((a, b) => {
                 if (a.category_id < b.category_id) {
                     return -1
@@ -28,12 +30,15 @@ function ProductsPage() {
             })
             setCategories(sortedItems)
 
+            //get items collection from db
             const  itemSnapshot = await getDocs(itemCollectionRef)
             const items = (itemSnapshot.docs.map(doc => ({id: doc.id, ...doc.data()} )))
 
+            //get options collection from db
             const optionSnapshot = await getDocs(optionCollectionRef)
             const optionsData = (optionSnapshot.docs.map(doc => ({id: doc.id, ...doc.data()} )))
 
+            //get options with their respective item
             const optionsMap = optionsData.reduce((data, option) => {
                 if (!data[option.item_id]) {
                     data[option.item_id] = []
@@ -47,6 +52,7 @@ function ProductsPage() {
                 return data
             }, {})
 
+            //push everything into our state
             setJoinedItems(items.map(item => ({
                 ...item,
                 options: optionsMap[item.item_id] || null,
