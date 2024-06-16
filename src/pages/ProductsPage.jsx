@@ -135,7 +135,7 @@ function ProductsPage() {
                         <Link key={idx} className="text-decoration-none text-black" to={`/product/${items.id}`} state={{ id: items.id }}>
                             <div className="border-b-2 border-black m-2 p-3 hover:!outline hover:!shadow-lg outline-stone-50">
                                 <div className="flex flex-wrap">
-                                    <div className="flex flex-wrap w-[70% mobile-lg:!w-[100%]">
+                                    <div className="flex flex-wrap w-[70%] mobile-lg:!w-[100%]">
                                         <div className="text-2xl w-[100%] font-bold font-sans"> {items.item_name} </div>
                                         <div className="text-xl w-[100%] font-medium"> {items.description} </div>
                                     </div>
